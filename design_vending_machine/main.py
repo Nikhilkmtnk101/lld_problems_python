@@ -1,5 +1,6 @@
 import uuid
 
+from coin.coin import Coin
 from design_vending_machine.inventory.item import Item
 from design_vending_machine.inventory.item_type import ItemType
 from vending_machine.vending_machine import VendingMachine
@@ -45,22 +46,25 @@ if __name__ == "__main__":
         print("|")
 
         vending_state = vending_machine.get_state()
-        vending_state.start_payment(vending_machine)
+        vending_state.start_payment()
 
         vending_state = vending_machine.get_state()
-        vending_state.insert_coin(vending_machine, "Coin.NICKEL")
-        vending_state.insert_coin(vending_machine, "Coin.QUARTER")
+        vending_state.insert_coin(Coin.DIME)
+        vending_state.insert_coin(Coin.QUARTER)
         # vending_state.insert_coin(vending_machine, Coin.NICKEL)
 
         print("|")
         print("clicking on ProductSelectionButton")
         print("|")
-        vending_state.start_product_selection(vending_machine)
+        vending_state.start_product_selection()
 
         vending_state = vending_machine.get_state()
-        vending_state.select_product(vending_machine, 102)
+        vending_state.select_product(102)
+        vending_state = vending_machine.get_state()
+        vending_state.dispense_product()
 
         display_inventory(vending_machine)
 
     except Exception as e:
+        print(e)
         display_inventory(vending_machine)

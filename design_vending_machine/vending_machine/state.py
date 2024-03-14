@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 
 from design_vending_machine.coin.coin import Coin
 from vending_machine.constant import METHOD_NOT_SUPPORTED_EXCEPTION
-from vending_machine.vending_machine import VendingMachine
 from design_vending_machine.inventory.item import Item
 
 
@@ -37,7 +36,7 @@ class State(ABC):
 
 
 class IdleState(State):
-    def __init__(self, vending_machine: VendingMachine):
+    def __init__(self, vending_machine):
         print("Currently Vending machine is in IdleState")
         self.vending_machine = vending_machine
         coins = []
@@ -66,7 +65,7 @@ class IdleState(State):
 
 
 class PaymentState(State):
-    def __init__(self, vending_machine: VendingMachine):
+    def __init__(self, vending_machine):
         print("Currently Vending machine is in Payment State")
         self.vending_machine = vending_machine
 
@@ -96,7 +95,7 @@ class PaymentState(State):
 
 
 class ProductSelectionState(State):
-    def __init__(self, vending_machine: VendingMachine):
+    def __init__(self, vending_machine):
         self.vending_machine = vending_machine
 
     def start_payment(self):
@@ -134,7 +133,7 @@ class ProductSelectionState(State):
 
 
 class DispensingState(State):
-    def __init__(self, vending_machine: VendingMachine, product_code: int):
+    def __init__(self, vending_machine, product_code: int):
         self.vending_machine = vending_machine
         self.product_code = product_code
 

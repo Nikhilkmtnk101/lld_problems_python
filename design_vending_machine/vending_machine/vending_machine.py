@@ -3,6 +3,7 @@ from uuid import UUID
 from design_vending_machine.coin.coin import Coin
 from design_vending_machine.inventory.inventory import Inventory
 from vending_machine.constant import INVENTORY_SIZE
+from vending_machine.state import IdleState
 
 
 class VendingMachine:
@@ -10,13 +11,13 @@ class VendingMachine:
         self.machine_id = machine_id
         self.inventory = Inventory(INVENTORY_SIZE)
         self.coins = []
-        self.state = None
+        self.state = IdleState(self)
 
     def get_inventory(self):
         return self.inventory
 
     def set_inventory(self, inventory: Inventory):
-        self.inventory = Inventory
+        self.inventory = inventory
 
     def get_state(self):
         return self.state
