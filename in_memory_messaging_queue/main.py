@@ -1,5 +1,3 @@
-import time
-
 from queue_service import QueueService
 
 if __name__ == '__main__':
