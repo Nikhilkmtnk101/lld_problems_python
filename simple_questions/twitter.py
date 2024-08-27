@@ -100,7 +100,7 @@ class Followers:
         self.followee_id = followee_id
 
 
-class UserService:
+class UserRepository:
     def __init__(self):
         self.lock = Lock()
         self.user_id_vs_user = {}
@@ -120,7 +120,7 @@ class UserService:
         return user
 
 
-class TweetService:
+class TweetRepository:
     def __init__(self):
         self.lock = Lock()
         self.owner_id_vs_tweets = {}
@@ -145,7 +145,7 @@ class TweetService:
         return tweets
 
 
-class FollowersService:
+class FollowersRepository:
     def __init__(self):
         self.lock = RLock()
         self.follower_id_vs_followers = {}
@@ -204,28 +204,28 @@ class FollowersService:
 
 class TwitterService:
     def __init__(self):
-        self.user_service = UserService()
-        self.tweet_service = TweetService()
-        self.followers_service = FollowersService()
+        self.user_repository = UserRepository()
+        self.tweet_repository = TweetRepository()
+        self.followers_repository = FollowersRepository()
 
     def create_user(self, user_name, email, phone):
-        return self.user_service.create_user(user_name, email, phone)
+        return self.user_repository.create_user(user_name, email, phone)
 
     def create_tweet(self, owner_id, content):
-        return self.tweet_service.create_tweet(content, owner_id)
+        return self.tweet_repository.create_tweet(content, owner_id)
 
     def follow_user(self, follower_id, followee_id):
-        return self.followers_service.create_follower(follower_id, followee_id)
+        return self.followers_repository.create_follower(follower_id, followee_id)
 
     def unfollow_user(self, follower_id, followee_id):
-        self.followers_service.remove_follower(follower_id, followee_id)
+        self.followers_repository.remove_follower(follower_id, followee_id)
 
     def get_feed(self, user_id):
-        followers_list = self.followers_service.get_followers_by_follower_id(follower_id=user_id)
+        followers_list = self.followers_repository.get_followers_by_follower_id(follower_id=user_id)
         tweets = []
         for followers in followers_list:
             followee_id = followers.get_followee_id()
-            followee_tweets = self.tweet_service.get_tweets_by_owner_id(owner_id=followee_id)
+            followee_tweets = self.tweet_repository.get_tweets_by_owner_id(owner_id=followee_id)
             tweets += followee_tweets
 
         tweets.sort(key=lambda x: x.created_at, reverse=True)
